@@ -1,0 +1,12 @@
+C:\Users\fei\dev\tefarov\tef_core\obj\Debug\tef_core.csprojAssemblyReference.cache
+C:\Users\fei\dev\tefarov\tef_core\obj\Debug\tef_core.csproj.CoreCompileInputs.cache
+C:\Users\fei\dev\tefarov\tef_core\bin\Debug\tef_core.dll
+C:\Users\fei\dev\tefarov\tef_core\bin\Debug\tef_core.pdb
+C:\Users\fei\dev\tefarov\tef_core\obj\Debug\tef_core.dll
+C:\Users\fei\dev\tefarov\tef_core\obj\Debug\tef_core.pdb
+C:\Users\efarovts\dev\tefarov\tef_core\bin\Debug\tef_core.dll
+C:\Users\efarovts\dev\tefarov\tef_core\bin\Debug\tef_core.pdb
+C:\Users\efarovts\dev\tefarov\tef_core\obj\Debug\tef_core.csprojResolveAssemblyReference.cache
+C:\Users\efarovts\dev\tefarov\tef_core\obj\Debug\tef_core.csproj.CoreCompileInputs.cache
+C:\Users\efarovts\dev\tefarov\tef_core\obj\Debug\tef_core.dll
+C:\Users\efarovts\dev\tefarov\tef_core\obj\Debug\tef_core.pdb

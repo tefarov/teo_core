@@ -1,0 +1,6 @@
+C:\Users\fei\dev\tefarov\teo_core\obj\Release\teo_core.csprojAssemblyReference.cache
+C:\Users\fei\dev\tefarov\teo_core\obj\Release\teo_core.csproj.CoreCompileInputs.cache
+C:\Users\fei\dev\tefarov\teo_core\bin\Release\teo_core.dll
+C:\Users\fei\dev\tefarov\teo_core\bin\Release\teo_core.pdb
+C:\Users\fei\dev\tefarov\teo_core\obj\Release\teo_core.dll
+C:\Users\fei\dev\tefarov\teo_core\obj\Release\teo_core.pdb

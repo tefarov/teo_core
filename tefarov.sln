@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 15 for Windows Desktop
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "app_tefarov", "app_tefarov\app_tefarov.csproj", "{AAC57C5C-9FEE-4B25-8130-58B7FD91DB66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "teo_core", "teo_core\teo_core.csproj", "{22E0EF80-0D30-4DF5-8E32-43D4F0842957}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAC57C5C-9FEE-4B25-8130-58B7FD91DB66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAC57C5C-9FEE-4B25-8130-58B7FD91DB66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAC57C5C-9FEE-4B25-8130-58B7FD91DB66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAC57C5C-9FEE-4B25-8130-58B7FD91DB66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22E0EF80-0D30-4DF5-8E32-43D4F0842957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22E0EF80-0D30-4DF5-8E32-43D4F0842957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22E0EF80-0D30-4DF5-8E32-43D4F0842957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22E0EF80-0D30-4DF5-8E32-43D4F0842957}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D785A091-0715-4B46-91FF-8A568A65BC33}
+	EndGlobalSection
+EndGlobal

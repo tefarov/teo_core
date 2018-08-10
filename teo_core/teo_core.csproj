@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{22E0EF80-0D30-4DF5-8E32-43D4F0842957}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TEO</RootNamespace>
+    <AssemblyName>teo_core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="!general.cs" />
+    <Compile Include="Commanding\!exceptions.cs" />
+    <Compile Include="Commanding\!general.cs" />
+    <Compile Include="Commanding\ACommand.cs" />
+    <Compile Include="Commanding\BatchBreaker.cs" />
+    <Compile Include="Commanding\BatchSequential.cs" />
+    <Compile Include="Commanding\CmdExecute.cs" />
+    <Compile Include="Commanding\CmdTest.cs" />
+    <Compile Include="Commanding\Environment\Environment.cs" />
+    <Compile Include="Commanding\Environment\Variable.cs" />
+    <Compile Include="Commanding\Language\Language.cs" />
+    <Compile Include="Commanding\IO\CmdReadText.cs" />
+    <Compile Include="Commanding\Web\CmdRequestHttp.cs" />
+    <Compile Include="Commanding\CmdMessagebox.cs" />
+    <Compile Include="Commanding\CmdSimple.cs" />
+    <Compile Include="Commanding\CmdTransfer.cs" />
+    <Compile Include="Commanding\Command1.cs" />
+    <Compile Include="Commanding\Context.cs" />
+    <Compile Include="Commanding\Input.cs" />
+    <Compile Include="Commanding\Language\!Language.cs" />
+    <Compile Include="Commanding\Language\Keyword.cs" />
+    <Compile Include="Commanding\Language\Run.cs" />
+    <Compile Include="Commanding\Language\Use.cs" />
+    <Compile Include="Commanding\Parser.cs" />
+    <Compile Include="Commanding\_IBatch.cs" />
+    <Compile Include="Commanding\_IBatchable.cs" />
+    <Compile Include="Commanding\_ICommandTunnelable.cs" />
+    <Compile Include="Commanding\_IGui.cs" />
+    <Compile Include="General\!general.cs" />
+    <Compile Include="General\FactoryFiles.cs" />
+    <Compile Include="General\GetterTextFile.cs" />
+    <Compile Include="General\Mapper.cs" />
+    <Compile Include="Commanding\Processor.cs" />
+    <Compile Include="Commanding\_ICommand.cs" />
+    <Compile Include="General\Configurating\AConfigurator_CFG.cs" />
+    <Compile Include="General\Configurating\ConfiguratorRegistry.cs" />
+    <Compile Include="General\Configurating\_IConfigurable.cs" />
+    <Compile Include="General\Configurating\_IConfigurator.cs" />
+    <Compile Include="General\FactoryFiles_old.cs" />
+    <Compile Include="General\FactoryPaths.cs" />
+    <Compile Include="General\Messaging\!general.cs" />
+    <Compile Include="General\Messaging\Bus.cs" />
+    <Compile Include="General\Messaging\BusConsole.cs" />
+    <Compile Include="General\Messaging\BusIFTT.cs" />
+    <Compile Include="General\Messaging\BusMsgBox.cs" />
+    <Compile Include="General\Messaging\BusTextFile.cs" />
+    <Compile Include="General\Messaging\Provider_old.cs" />
+    <Compile Include="General\Messaging\Provider.cs" />
+    <Compile Include="General\Messaging\_IMessageable.cs" />
+    <Compile Include="General\_IFactory.cs" />
+    <Compile Include="General\_IGetter.cs" />
+    <Compile Include="General\_ISetter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
