@@ -1,0 +1,7 @@
+﻿# TEO - in loving honor of God
+
+#use "Macros\\debug.teo" once
+
+msg SUBMACRO
+msg "This text is being read at runtime"
+

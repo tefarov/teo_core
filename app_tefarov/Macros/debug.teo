@@ -1,0 +1,16 @@
+﻿# TEO - in loving honor of God
+
+msg "http://www.uvchm.ru/prices/p-385/"
+#http "http://www.uvchm.ru/prices/p-385/" post "Config\\http_nlmk.cfg"
+
+#SET $now string "Today is 2018-08-08"
+#SET $now string "Today is 2018-08-09"
+#SET $now string "Today is 2018-08-10"
+SET $min int 500
+SET $txt string ask
+
+display $min $console "Это новый текст"
+display $txt $msg
+
+display ask $console "выход"
+exit
