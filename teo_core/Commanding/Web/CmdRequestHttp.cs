@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Net;
-using rx = System.Text.RegularExpressions;
 
 using TEO.General;
 using TEO.General.Messaging;
 
 namespace TEO.Commanding.Web
 {
-    public class CmdRequestHttp : ICommand, ICommandTunnelable, IMessageable
+    public partial class CmdRequestHttp : ICommand, ICommandTunnelable, IMessageable
     {
         /// <summary>
         /// This array simbolizes no Content-Data
@@ -61,23 +60,23 @@ namespace TEO.Commanding.Web
         /// <summary>
         /// Fully qulified page-address to send request to
         /// </summary>
-        public string Page;
+        public IGetter<string> Page;
         /// <summary>
         /// Request-Method: GET / POST 
         /// </summary>
-        public string Method = CmdRequestHttp.MethodDefault;
+        public IGetter<string> Method = new GetterValue<string>() { Value = CmdRequestHttp.MethodDefault };
         /// <summary>
         /// HTTP-Header : Accept
         /// </summary>
-        public string Accept = CmdRequestHttp.AcceptDefault;
+        public IGetter<string> Accept = new GetterValue<string>() { Value = CmdRequestHttp.AcceptDefault };
         /// <summary>
         /// HTTP-Header : ContentType
         /// </summary>
-        public string ContentT = CmdRequestHttp.ContentTDefault;
+        public IGetter<string> ContentT = new GetterValue<string>() { Value = CmdRequestHttp.ContentTDefault };
         /// <summary>
         /// HTTP-Header : User-Agent the one that describes a browser
         /// </summary>
-        public string UserAgent = CmdRequestHttp.UserAgentDefault;
+        public IGetter<string> UserAgent = new GetterValue<string>() { Value = CmdRequestHttp.UserAgentDefault };
 
         /// <summary>
         /// Content-string to be sent to the server if not GET-method
@@ -89,12 +88,16 @@ namespace TEO.Commanding.Web
             , EncodingResponse = CmdRequestHttp.EncodingResponseDefault
             ;
 
+        Environment.Environment ENV;
+
         public ICommand Next { get; set; }
         public TCommand Type => TCommand.Sequential;
 
         public AResponseProcessor RepsonseProcessor;
 
         public event EventHandler<EventArgsMessage> Message;
+
+        public CmdRequestHttp(Environment.Environment environment) { ENV = environment.NotNull(); }
 
         public ExecuteResult Execute(Context context)
         {
@@ -103,20 +106,22 @@ namespace TEO.Commanding.Web
             byte[] cnt = null;
 
             retry:
-            var req = (HttpWebRequest)WebRequest.Create(this.Page);//*/
-
-            req.Accept = this.Accept;
-            req.ContentType = this.ContentT;
-            req.Method = this.Method;
-            req.UserAgent = this.UserAgent;
+            var req = (HttpWebRequest)WebRequest.Create(this.Page.Get());//*/
+            var mtd = this.Method?.Get() ?? "GET";
+            var ctt = this.Content?.Get() ?? null;
+            
+            req.Accept = this.Accept.Get () ;
+            req.ContentType = this.ContentT.Get();
+            req.Method = this.Method.Get();
+            req.UserAgent = this.UserAgent.Get();
 
             // ... This creates content bytes if any content specified ...
             // We tried to acquire content before, and no need to do it again
             if (has) { }
             // GET-method doesn't support sending content to server
-            if (this.Method == "GET") { }
+            if (mtd == "GET") { }
             // Content getter might be unspecified
-            else if (this.Content == null) { }
+            else if (ctt == null) { }
             // some content has been acquired before retry 
             // or there's some significant data got now
             else if (
@@ -132,7 +137,7 @@ namespace TEO.Commanding.Web
             has = true; // signalize no need to acquire content once again
 
             try {
-                using (var rsp = (HttpWebResponse)req.GetResponse()) {
+                using (var rsp = (HttpWebResponse)req.GetResponse ()) {
 
                     if (this.IsOutputStatus) this.Message(this, new EventArgsMessage(rsp.StatusDescription, TMessage.QueryData));
 
@@ -160,7 +165,9 @@ namespace TEO.Commanding.Web
                 throw;
             }
         }
-
+        /// <summary>
+        /// Some abstract class for processing http-response. 
+        /// </summary>
         public abstract class AResponseProcessor
         {
             protected CmdRequestHttp ITM;
@@ -169,78 +176,44 @@ namespace TEO.Commanding.Web
             public abstract void Process(HttpWebResponse response);
             public abstract void Set(string key, string value);
         }
-        public class ProcessorText : AResponseProcessor
-        {
-            public rx.Regex ReX;
-            public string GroupName;
-            
-            public ProcessorText(CmdRequestHttp item) : base(item) { }
-            public override void Process(HttpWebResponse rsp)
-            {
-                string txt = null;
-
-                using (var rdr = new StreamReader(rsp.GetResponseStream())) {
-                    txt = rdr.ReadToEnd();
-                }
-
-                if (string.IsNullOrEmpty(txt)) return;
-                else if (this.ReX != null) {
-                    var emch = this.ReX.Matches(txt);
-                    foreach (rx.Match mch in emch) {
-                        ITM.Message(ITM, new EventArgsMessage(getMatch(mch), TMessage.CommandResult));
-                    }
-                }
-                else
-                    ITM.Message(ITM, new EventArgsMessage(txt));
-
-
-                string getMatch ( rx.Match item )
-                {
-                    rx.Group grp;
-
-                    if (string.IsNullOrEmpty(this.GroupName)) { }
-                    else if ((grp = item.Groups[this.GroupName]) != null) {
-                        return grp.Success ? grp.Value : string.Empty;
-                    }
-
-                    return item.Value;
-                }
-            }
-            public override void Set(string key, string value)
-            {
-                if (key == "pattern" && this.ReX == null)
-                    this.ReX = new rx.Regex(value);
-                else if (key == "group")
-                    this.GroupName = value;
-            }
-        }
-
+        
+        /// <summary>
+        /// This is the factory-function for creating http-requests
+        /// </summary>
         public static IBatchable Create(Input command , Environment.Environment env )
         {
-            var itm = new CmdRequestHttp();
-            string enc = null, cfg = null;
+            var itm = new CmdRequestHttp(env);
+            Arg apag, acfg;
 
-            if (command.TrySet(ref cfg, 3, "config")
-                || command.TrySet(ref cfg, 3, "cfg")) {
+            if (command.TrySet(out apag, 1, "page")) 
+                itm.Page = apag.GetGetter(env);
+            else
+                throw new ArgumentException("На певром месте необходимо указать страницу в кавычках");
+
+            if (command.TrySet(out acfg, 3, "config")
+                || command.TrySet(out acfg, name: "cfg")) {
+                var cfg = acfg.GetGetter(env).Get();
                 (new configurator(itm, cfg)).Configure();
             }
 
-            if (!command.TrySet(ref itm.Page, name: "page"))
-                throw new ArgumentException("Webpage not specified");
+            if (command.TrySet(out var avl1, 2, name: "method")) itm.Method = avl1.GetGetter(env);
+            if (command.TrySet(out var avl2, name: "accept")) itm.Accept = avl2.GetGetter(env);
+            if (command.TrySet(out var avl3, name: "useragent")) itm.UserAgent = avl3.GetGetter(env);
+            if (command.TrySet(out var avl4, name: "contenttype")) itm.ContentT = avl4.GetGetter(env);
+            // TODO: Parse encoding
+            //if (command.TrySet(out var avl5, name: "encoding")) itm.ContentT = avl5.GetGetter(env);
 
-            command.TrySet(ref itm.Method, name: "method");
-            command.TrySet(ref itm.Accept, name: "accept");
-            command.TrySet(ref itm.ContentT, name: "contenttype");
-            command.TrySet(ref itm.UserAgent, name: "useragent");
+            if (command.TrySet(out var avli1, name: "timeout")) itm.Timeout = avli1.GetGetter(env, Arg.ConverterInt).Get();
+            if (command.TrySet(out var avli2, name: "retries")) itm.TimeoutAttempts = avli2.GetGetter(env, Arg.ConverterInt).Get();
 
             decimal tme = 0;
             if (command.TrySet(ref tme, name: "timeout")) itm.Timeout = (int)(tme * 1000);
 
-            // TODO: Parse encoding
-            command.TrySet(ref enc, name: "encoding");
-
             return itm;
         }
+        /// <summary>
+        /// This configurator implements AConfigurator_CFG that reads .CFG files and applies some configuration to the particular HTTP-request        
+        /// </summary>
         class configurator : TEO.General.Configurating.AConfigurator_CFG
         {
             CmdRequestHttp ITM;
@@ -249,12 +222,12 @@ namespace TEO.Commanding.Web
             protected override void setParameter(string section, string key, string value)
             {
                 if (section == "http") {
-                    if (key == "page") ITM.Page = value;
-                    else if (key == "accept") ITM.Accept = value;
-                    else if (key == "contenttype") ITM.ContentT = value;
-                    else if (key == "method") ITM.Method = value;
-                    else if (key == "useragent") ITM.UserAgent = value;
-
+                    if (key == "page") ITM.Page = new GetterValue<string>() { Value = value };
+                    else if (key == "accept") ITM.Accept = new GetterValue<string>() { Value = value };
+                    else if (key == "method") ITM.Method = new GetterValue<string>() { Value = value };
+                    else if (key == "useragent") ITM.UserAgent = new GetterValue<string>() { Value = value };
+                    else if (key == "contenttype") ITM.ContentT = new GetterValue<string>() { Value = value };
+                    
                     else if (key == "timeout" && int.TryParse(value, out int tme)) ITM.Timeout = tme;
                     else if (key == "encoding") {
                         this.TrySet(value, ref ITM.EncodingRequest);
@@ -269,9 +242,19 @@ namespace TEO.Commanding.Web
                 }
                 else if (section == "postprocessor.regex") {
                     if (ITM.RepsonseProcessor == null
-                        || !(ITM.RepsonseProcessor is ProcessorText))
-                        ITM.RepsonseProcessor = new ProcessorText(ITM);
+                        || !(ITM.RepsonseProcessor is ProcessorText)) {
 
+                        ITM.RepsonseProcessor = new ProcessorText(ITM) { Output = ITM.ENV["console"].Convert<ISetter<string>>() };
+                    }
+
+                    ITM.RepsonseProcessor.Set(key, value);
+                }
+                else if (section == "postprocessor.dom") {
+                    if (ITM.RepsonseProcessor == null
+                        || !(ITM.RepsonseProcessor is ProcessorDom)) {
+
+                        ITM.RepsonseProcessor = new ProcessorDom(ITM) { Output = ITM.ENV["console"].Convert<ISetter<string>>() };
+                    }
                     ITM.RepsonseProcessor.Set(key, value);
                 }
             }
@@ -284,6 +267,9 @@ namespace TEO.Commanding.Web
                 catch { return false; }
             }
         }
+        /// <summary>
+        /// This class is responsible for encoding some text to binary for the needs of sending that data to the server
+        /// </summary>
         class encoder : IGetter<byte[]> {
             public string Text;
             public Encoding Encoding = CmdRequestHttp.EncodingRequestDefault;

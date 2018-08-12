@@ -1,16 +1,25 @@
 ﻿# TEO - in loving honor of God
 
-msg "http://www.uvchm.ru/prices/p-385/"
-#http "http://www.uvchm.ru/prices/p-385/" post "Config\\http_nlmk.cfg"
+$fil "mytext.txt" file.text
+$fil = "Append some text"
+$fil = "Append some text more"
+
+say $fil
+
+$fil = "\tand some more"
+
+say $fil
+
+#http "https://radiovera.ru/zabota-o-roditelyah-semeynyiy-chas-s-tuttoy-larsen-i-protoiereem-artemiem-vladimirovyim-16-12-2017.html" post "Config\\http_radiovera.cfg"
 
 #SET $now string "Today is 2018-08-08"
 #SET $now string "Today is 2018-08-09"
 #SET $now string "Today is 2018-08-10"
-SET $min int 500
-SET $txt string ask
+#SET $min int 500
+#SET $txt string ask
 
-display $min $console "Это новый текст"
-display $txt $msg
+#say $min $console "Это новый текст"
+#say $txt $msg
 
-display ask $console "выход"
-exit
+#say ask $console "выход"
+#exit

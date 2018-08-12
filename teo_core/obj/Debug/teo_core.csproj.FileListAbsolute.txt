@@ -4,3 +4,11 @@ C:\Users\fei\dev\tefarov\teo_core\obj\Debug\teo_core.csproj.CoreCompileInputs.ca
 C:\Users\fei\dev\tefarov\teo_core\obj\Debug\teo_core.dll
 C:\Users\fei\dev\tefarov\teo_core\obj\Debug\teo_core.pdb
 C:\Users\fei\dev\tefarov\teo_core\obj\Debug\teo_core.csprojAssemblyReference.cache
+C:\Users\fei\dev\teo_core\teo_core\bin\Debug\teo_core.dll
+C:\Users\fei\dev\teo_core\teo_core\bin\Debug\teo_core.pdb
+C:\Users\fei\dev\teo_core\teo_core\bin\Debug\AngleSharp.dll
+C:\Users\fei\dev\teo_core\teo_core\obj\Debug\teo_core.csprojAssemblyReference.cache
+C:\Users\fei\dev\teo_core\teo_core\obj\Debug\teo_core.csproj.CoreCompileInputs.cache
+C:\Users\fei\dev\teo_core\teo_core\obj\Debug\teo_core.csproj.CopyComplete
+C:\Users\fei\dev\teo_core\teo_core\obj\Debug\teo_core.dll
+C:\Users\fei\dev\teo_core\teo_core\obj\Debug\teo_core.pdb

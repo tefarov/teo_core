@@ -17,12 +17,16 @@ namespace TEO.Commanding.Language
             , KwAsk = "ask"
             , KwBreak = "break"
 
+            //Commands
+
+
             // Types
             , TpString = "string"
             , TpInt = "int"
             , TpDecimal = "decimal"
             , TpDate = "date"
             , TpPeriod = "period"
+            , TpFile = "file.text"
 
             // Text
             , TxTrue = "true", TxTrue2 = "да"
@@ -30,6 +34,11 @@ namespace TEO.Commanding.Language
 
             // Signs
             , SnAssign = ":="
+
+            // Predefined texts
+            , Tx_AskText = "Введите текст"
+            , Tx_AskNumber = "Введите число"
+            , Tx_AskPath = "Введите путь"
             ;
 
         public const char
@@ -43,6 +52,13 @@ namespace TEO.Commanding.Language
             , ChQuotCpx = '"'
             ;
 
-        static char[] __ASPC = { ' ', '\t' };
+        /// <summary>
+        /// These chars are spaces
+        /// </summary>
+        public static char[] Spaces = { ' ', '\t', ChLineend };
+        /// <summary>
+        /// These chars are operators
+        /// </summary>
+        public static char[] Operators = { '=' };
     }
 }

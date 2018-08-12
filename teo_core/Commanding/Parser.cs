@@ -21,8 +21,8 @@ namespace TEO.Commanding
         List<string> SINS = new List<string>();  // list of instructions
         iInstruction CUR = new ins_variant();
 
-        public Environment.Environment Environment;
-
+        //public Environment.Environment Environment;
+        
         public readonly ISet<string>
             FilesUsed = new HashSet<string>()    // files used, needed to prevent once-files to be used
             ;
@@ -44,7 +44,8 @@ namespace TEO.Commanding
             DFBAB["say"] = new lg(environment, lg.Create_Say);
             DFBAB["http"] = new lg(environment, Web.CmdRequestHttp.Create);
 
-            DFBAB["$ass"] = new lg(environment, lg.Create_Assign);
+            DFBAB["$ass"] = new lg(environment, CmdAssignSet.Create_Assign);
+            DFBAB["$set"] = new lg(environment, CmdAssignSet.Create_Set);
         }
 
         public IBatch Parse(IGetter<string> source, string description = null )
@@ -67,9 +68,11 @@ namespace TEO.Commanding
             this.append('\r'); // this closes the current value-parsers and any other processing
 
             finalize:
-            var ainp = SINS.Select(x => new Input(ref x)).ToArray(SINS.Count);
-            var abab = ainp.Select(x => this.parse(x)).ToArrayR(ainp.Length);
-
+            int lin = 0;
+            
+                var ainp = SINS.Select(x => new Input(ref x)).ToArray(SINS.Count);
+                var abab = ainp.Select(x => this.parse(x, ++lin)).ToArrayR(ainp.Length);
+            
             var bch = new BatchSequential() { Text = description };
             return bch.Append(abab);
         }
@@ -116,16 +119,20 @@ namespace TEO.Commanding
             }
         }
 
-        IBatchable parse(Input command)
-        {
-            var key = command.Command.ToLowerInvariant();
+        IBatchable parse(Input command, int line)
+        {try {
+                var key = command.Command.ToLowerInvariant();
 
-            if (command[0].IsVariable && command[1].Value == "=")
-                return DFBAB["$ass"].Create(command);
-            if (DFBAB.ContainsKey(key))
-                return DFBAB[key].Create(command);
+                if (command[0].IsVariable && command[1].Value == "=")
+                    return DFBAB["$set"].Create(command);
+                else if (command[0].IsVariable)
+                    return DFBAB["$ass"].Create(command);
+                else if (DFBAB.ContainsKey(key))
+                    return DFBAB[key].Create(command);
 
-            return new Command1 { Text = command.ToString() };
+                return new Command1 { Text = command.ToString() };
+            }
+            catch (Exception ex) { throw new ExceptionParsing(ex, command, line); }
         }
 
         #region iInstruction - parsing instructions

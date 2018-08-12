@@ -13,13 +13,9 @@ namespace TEO.Commanding.Language
     /// <summary>
     /// Command-factory. It creates commands. Needed to store an Environment-variable and to pass it to commands
     /// </summary>
-    public partial class Language: IFactory<Input, IBatchable>
+    public partial class Language : IFactory<Input, IBatchable>
     {
-        const string
-            STR_ASKTEXT = "Введите текст"
-            , STR_ASKNUMB = "Введите число"
-            ;
-
+        
         public delegate IBatchable Creator(Input command, ev.Environment environment);
 
         readonly Creator CRT;
@@ -48,11 +44,11 @@ namespace TEO.Commanding.Language
             if (!item.TrySet(out adst, 2)) adst = new Arg(2, null, "$console");  //throw new ArgumentException("Второй аргумент, который должен описывать способ отображения, отуствует");
             if (item.TrySet(out ahdr, 3, "header"))
                 hdr = item.GetGetter_STR(env, ref ahdr).Get();
-            
+
             if (asrc.IsVariable)
-                src = env.GetGetter<string>(asrc.Value);
+                src = env.VariableGet<string>(asrc.Value, false);
             else if (asrc.Value == lg.KwAsk)
-                src = new GetterAskConsole(STR_ASKTEXT);
+                src = new GetterAskConsole(lg.Tx_AskText);
             else
                 src = new GetterValue<string>() { Value = asrc.Value };
 
@@ -64,40 +60,6 @@ namespace TEO.Commanding.Language
 
             return new CmdTransfer<string>(src, dst) { Text = hdr };
         }
-
-        public static IBatchable Create_Assign(Input item, ev.Environment env)
-        {
-            Arg avar, atyp, aval;
-
-            if (!item.TrySet(out avar, 0)) throw new ArgumentException("Первый аргумент, который должен быть переменной отсутствует");
-            if (!item.TrySet(out atyp, 2)) throw new ArgumentException("Второй аргумент, который должен быть типом переменной (string|int|float .. etc) отсутствует");
-            if (!item.TrySet(out aval, 3)) throw new ArgumentException("Третий аргумент, который должен содержать значение|переменную отсутствует");
-
-            if (!avar.IsVariable) throw new ArgumentException("Первый аргумент должен быть переменной (например: $foo)");
-            if (atyp.IsVariable) throw new ArgumentException("Второй аргумент не может быть переменной");
-
-            if (atyp.Value == lg.TpString) {
-                var gval = item.GetGetter_STR(env, ref aval, STR_ASKTEXT);
-                var sval = env.GetSetter<string>(avar.Value);
-
-                return new CmdTransfer<string>(gval, sval);
-            }
-            else if (atyp.Value == lg.TpInt) {
-                var gval = item.GetGetter_INT(env, ref aval, STR_ASKNUMB);
-                var sval = env.GetSetter<int>(avar.Value);
-
-                return new CmdTransfer<int>(gval, sval);
-            }
-            else if (atyp.Value == lg.TpDecimal) {
-                var gval = item.GetGetter_DEC(env, ref aval, STR_ASKNUMB);
-                var sval = env.GetSetter<decimal>(avar.Value);
-
-                return new CmdTransfer<decimal>(gval, sval);
-            }
-
-            throw new ArgumentException("Неизвестный тип данных:" + atyp.Value);
-        }
-
         public static IBatchable Create_Exe(Input item, ev.Environment env)
         {
             Arg afil;

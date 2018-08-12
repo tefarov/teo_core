@@ -46,16 +46,16 @@ namespace TEO.Commanding
                     isx = false;
                 }
                 // we found an escape-symbol, start escape-sequence processing
-                else if (val == CHR_ARGESCP) { isx = true; }
+                else if (val == lg.ChEscapeC) { isx = true; }
                 // we are processing some long string and found a quote, so that's the end, we should flush a buffer
-                else if (val == CHR_ARGQUOT && isq) {
+                else if (val == lg.ChQuotCpx && isq) {
                     isq = false;
                     flush_string(cmd, buf.ToString());
                 }
                 // we found a quote and should start a long-string processing, however, the prviously input text, might be an-assignment
                 // so then we should save the assignment-data to a variable, to link it later to a long-string
                 // and yet, starting a quote, tells that the prviously input text is a standalone-argument
-                else if (val == CHR_ARGQUOT) {
+                else if (val == lg.ChQuotCpx) {
                     isq = true;
 
                     // nothing has been previously input
@@ -80,11 +80,11 @@ namespace TEO.Commanding
                 else if (isq) {
                     buf.Append(val);
                 }
-                // some arguent-separator has been found, so we flush a buffer
-                else if (__ASEP.Contains(val)) {
+                // some argument-separator has been found, so we flush a buffer
+                else if (lg.Spaces.Contains(val)) {
                     flush_buffer();
                 }
-                else if (__AOPR.Contains(val)) {
+                else if (lg.Operators.Contains(val)) {
                     flush_buffer();
                     sarg.Add(new Arg(sarg.Count, null, val.ToString()));
                 }
@@ -324,7 +324,7 @@ namespace TEO.Commanding
         public IGetter<string> GetGetter_STR(Environment.Environment env, ref Arg val, string askquestion = null)
         {
             if (val.IsVariable)
-                return env.GetGetter<string>(val.Value);
+                return env.VariableGet<string>(val.Value, false);
             else if (val.Value == lg.KwAsk)
                 return new GetterAskConsole(askquestion);
 
@@ -333,7 +333,7 @@ namespace TEO.Commanding
         public IGetter<int> GetGetter_INT(Environment.Environment env, ref Arg val, string askquestion = null)
         {
             if (val.IsVariable)
-                return env.GetGetter<int>(val.Value);
+                return env.VariableGet<int>(val.Value, false);
             else if (val.Value == lg.KwAsk)
                 return new GetterAskConsole<int>(askquestion, new FactoryFunction<string, int>(int.Parse));
 
@@ -345,7 +345,7 @@ namespace TEO.Commanding
         public IGetter<decimal> GetGetter_DEC(Environment.Environment env, ref Arg val, string askquestion = null)
         {
             if (val.IsVariable)
-                return env.GetGetter<decimal>(val.Value);
+                return env.VariableGet<decimal>(val.Value, false);
             else if (val.Value == lg.KwAsk)
                 return new GetterAskConsole<decimal>(askquestion, new FactoryFunction<string, decimal>(decimal.Parse));
 
@@ -439,26 +439,17 @@ namespace TEO.Commanding
 
         public override string ToString()
         {
-            return AARG.Select(x => x.Value).Concat(" ");
+            return AARG.Select(x => x.ToString()).Concat(" ");
         }
+
 
         const string
             STR_ARGASSG = "::"
             ;
 
-        const char
-            CHR_ARGQUOT = '"'
-            , CHR_ARGESCP = '\\'
-            ;
-
         static StringBuilder __SBD = new StringBuilder();
         static HashSet<Arg> __SARG = new HashSet<Arg>();
-        static char[]
-            __ASEP = { ' ', '\t' }
-            , __AOPR = { '=' }
-            ;
         
-
         public static IEnumerable<Input> Read(string filepath)
         {
             return new reader(filepath);
@@ -478,7 +469,7 @@ namespace TEO.Commanding
             this.IsVariable = false;
 
             if (string.IsNullOrEmpty(value)) { }
-            else if (value[0] == Language.Language.ChVariable) {
+            else if (value[0] == lg.ChVariable) {
                 this.IsVariable = true;
                 this.Value = value.Substring(1);
             }
@@ -499,9 +490,40 @@ namespace TEO.Commanding
             if (this.IsEmpty) return "-";
 
             string fmt = "{1}"; // unnamed format
-            if (!string.IsNullOrEmpty(this.Name)) fmt = "{0}:={1}";
+            if (this.IsVariable)
+                fmt = lg.ChVariable + fmt;
+            else if (this.Value.IndexOfAny(lg.Spaces) > 0) 
+                fmt = lg.ChQuotCpx + fmt + lg.ChQuotCpx;
+
+            if (!string.IsNullOrEmpty(this.Name)) fmt = "{0}::" + fmt;
 
             return string.Format(fmt, this.Name, this.Value);
         }
+
+        public IGetter<T> GetGetter<T>(Environment.Environment environment, bool isnullable = false)
+        {
+            if (this.IsVariable)
+                return environment.VariableGet<T>(this.Value, isnullable);
+
+            throw new ArgumentException("На позиции " + this.Id.ToString() + " " + this.Name + " должна быть переменная");
+        }
+        public IGetter<T> GetGetter<T>(Environment.Environment environment, Func<string, T> converter, bool isnullable = false)
+        {
+            if (this.IsVariable)
+                return environment.VariableGet<T>(this.Value, isnullable);
+
+            var val = converter(this.Value);
+            return new GetterValue<T>() { Value = val };
+        }
+        public IGetter<string> GetGetter(Environment.Environment environment, bool isnullable = false)
+        {
+            if (this.IsVariable)
+                return environment.VariableGet<string>(this.Value, isnullable);
+
+            return new GetterValue<string>() { Value = this.Value };
+        }
+
+        public static Func<string, int> ConverterInt = x => int.Parse(x);
+        public static Func<string, decimal> ConverterDec = x => decimal.Parse(x);
     }
 }

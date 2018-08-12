@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AngleSharp">
+      <HintPath>..\libraries\AngleSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,9 +50,13 @@
     <Compile Include="Commanding\ACommand.cs" />
     <Compile Include="Commanding\BatchBreaker.cs" />
     <Compile Include="Commanding\BatchSequential.cs" />
+    <Compile Include="Commanding\CmdAssignSet.cs" />
     <Compile Include="Commanding\CmdExecute.cs" />
     <Compile Include="Commanding\CmdTest.cs" />
     <Compile Include="Commanding\Environment\Environment.cs" />
+    <Compile Include="Commanding\Environment\FileText.cs" />
+    <Compile Include="Commanding\Environment\IFile.cs" />
+    <Compile Include="Commanding\Environment\IValuable.cs" />
     <Compile Include="Commanding\Environment\Variable.cs" />
     <Compile Include="Commanding\Language\Language.cs" />
     <Compile Include="Commanding\IO\CmdReadText.cs" />
@@ -65,6 +72,8 @@
     <Compile Include="Commanding\Language\Run.cs" />
     <Compile Include="Commanding\Language\Use.cs" />
     <Compile Include="Commanding\Parser.cs" />
+    <Compile Include="Commanding\Web\CmdRequestHttp_Text.cs" />
+    <Compile Include="Commanding\Web\CmdRequestHttp_Dom.cs" />
     <Compile Include="Commanding\_IBatch.cs" />
     <Compile Include="Commanding\_IBatchable.cs" />
     <Compile Include="Commanding\_ICommandTunnelable.cs" />
