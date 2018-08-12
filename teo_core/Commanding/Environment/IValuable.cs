@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace TEO.Commanding.Environment
 {
     /// <summary>
-    /// This interface tells that we may set ang get the values of this Variable in a specific way
+    /// Implement this interface to some Variable's value-type to allow special logics for 
+    /// getting and setting Variable's values
     /// </summary>
     public interface IValuable
     {
