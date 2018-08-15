@@ -48,7 +48,7 @@ namespace TEO.Commanding
             DFBAB["$set"] = new lg(environment, CmdAssignSet.Create_Set);
         }
 
-        public IBatch Parse(IGetter<string> source, string description = null )
+        public IBatch Parse(IGetter<string> source, string description = null)
         {
             SBD.Clear(); SINS.Clear(); CUR = new ins_variant();
 
@@ -69,10 +69,10 @@ namespace TEO.Commanding
 
             finalize:
             int lin = 0;
-            
-                var ainp = SINS.Select(x => new Input(ref x)).ToArray(SINS.Count);
-                var abab = ainp.Select(x => this.parse(x, ++lin)).ToArrayR(ainp.Length);
-            
+
+            var ainp = SINS.Select(x => new Input(ref x)).ToArray(SINS.Count);
+            var abab = ainp.Select(x => this.parse(x, ++lin)).ToArrayR(ainp.Length);
+
             var bch = new BatchSequential() { Text = description };
             return bch.Append(abab);
         }
@@ -81,8 +81,8 @@ namespace TEO.Commanding
             bool isretry = false;
             retry:
 
-            // this means that the current instruction will append the current character
-            // and no other processing needed
+            // Try to append a character to the current instruction, if so 
+            // no other processing is needed
             if (CUR.TryAppend(ref c)) {
                 if (c == '\\') SBD.Append('\\');
                 SBD.Append(c);
@@ -120,7 +120,8 @@ namespace TEO.Commanding
         }
 
         IBatchable parse(Input command, int line)
-        {try {
+        {
+            try {
                 var key = command.Command.ToLowerInvariant();
 
                 if (command[0].IsVariable && command[1].Value == "=")

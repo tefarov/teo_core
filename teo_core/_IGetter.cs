@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using io = System.IO;
 
-namespace TEO.General
+namespace TEO
 {
     public interface IGetterChangable<T> : IGetter<T>
     {
@@ -281,7 +281,7 @@ namespace TEO.General
 
             // Display a question
             if (Display != null)
-                Display.Write(this, new Messaging.EventArgsMessage(msg, Messaging.TMessage.UserInput));
+                Display.Write(this, new General.Messaging.EventArgsMessage(msg, General.Messaging.TMessage.UserInput));
             else
                 Console.Write(msg + " : ");
 
@@ -292,7 +292,7 @@ namespace TEO.General
             if (this.VLD != null && !this.VLD(txt)) {
 
                 if (Display != null)
-                    Display.Write(this, new Messaging.EventArgsMessage(err, Messaging.TMessage.Warning));
+                    Display.Write(this, new General.Messaging.EventArgsMessage(err, General.Messaging.TMessage.Warning));
                 else
                     Console.WriteLine(err);
 
@@ -307,7 +307,7 @@ namespace TEO.General
         /// <summary>
         /// All questions and messages will be shown with the help of this provider, otherwise native console
         /// </summary>
-        public Messaging.Provider Display;
+        public General.Messaging.Provider Display;
 
         /// <summary>
         /// The user will be asked with this text

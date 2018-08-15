@@ -55,10 +55,15 @@ namespace TEO.Commanding.Language
         /// <summary>
         /// These chars are spaces
         /// </summary>
-        public static char[] Spaces = { ' ', '\t', ChLineend };
+        public static char[] Spaces = { ' ', '\t' };
         /// <summary>
         /// These chars are operators
         /// </summary>
         public static char[] Operators = { '=' };
+
+        /// <summary>
+        /// These symbols are allowed in keywords besides digits and letters
+        /// </summary>
+        public static char[] SymbolsKeyword = { '_' };
     }
 }

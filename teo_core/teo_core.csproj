@@ -58,8 +58,12 @@
     <Compile Include="Commanding\Environment\IFile.cs" />
     <Compile Include="Commanding\Environment\IValuable.cs" />
     <Compile Include="Commanding\Environment\Variable.cs" />
+    <Compile Include="Commanding\Language\Argument.cs" />
+    <Compile Include="Commanding\Language\Input.cs" />
+    <Compile Include="Commanding\Language\Instruction.cs" />
     <Compile Include="Commanding\Language\Language.cs" />
     <Compile Include="Commanding\IO\CmdReadText.cs" />
+    <Compile Include="Commanding\Language\Parser.cs" />
     <Compile Include="Commanding\Web\CmdRequestHttp.cs" />
     <Compile Include="Commanding\CmdMessagebox.cs" />
     <Compile Include="Commanding\CmdSimple.cs" />
@@ -79,8 +83,8 @@
     <Compile Include="Commanding\_ICommandTunnelable.cs" />
     <Compile Include="Commanding\_IGui.cs" />
     <Compile Include="General\!general.cs" />
-    <Compile Include="General\FactoryFiles.cs" />
-    <Compile Include="General\GetterTextFile.cs" />
+    <Compile Include="FactoryFiles.cs" />
+    <Compile Include="GetterTextFile.cs" />
     <Compile Include="General\Mapper.cs" />
     <Compile Include="Commanding\Processor.cs" />
     <Compile Include="Commanding\_ICommand.cs" />
@@ -88,8 +92,6 @@
     <Compile Include="General\Configurating\ConfiguratorRegistry.cs" />
     <Compile Include="General\Configurating\_IConfigurable.cs" />
     <Compile Include="General\Configurating\_IConfigurator.cs" />
-    <Compile Include="General\FactoryFiles_old.cs" />
-    <Compile Include="General\FactoryPaths.cs" />
     <Compile Include="General\Messaging\!general.cs" />
     <Compile Include="General\Messaging\Bus.cs" />
     <Compile Include="General\Messaging\BusConsole.cs" />
@@ -99,9 +101,9 @@
     <Compile Include="General\Messaging\Provider_old.cs" />
     <Compile Include="General\Messaging\Provider.cs" />
     <Compile Include="General\Messaging\_IMessageable.cs" />
-    <Compile Include="General\_IFactory.cs" />
-    <Compile Include="General\_IGetter.cs" />
-    <Compile Include="General\_ISetter.cs" />
+    <Compile Include="_IFactory.cs" />
+    <Compile Include="_IGetter.cs" />
+    <Compile Include="_ISetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

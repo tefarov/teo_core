@@ -10,7 +10,7 @@ using TEO.Commanding.IO;
 
 namespace APP.Commanding
 {
-    class Parser : TEO.Commanding.Parser
+    class Parser : TEO.Commanding.Parser_2
     {
         public Parser(TEO.Commanding.Environment.Environment parent) : base ( parent)
         {

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TEO.General
+namespace TEO.Commanding
 {
-    public interface ISetter<T>
+    public class Instruction
     {
-        void Set(T item);
+        
     }
 }

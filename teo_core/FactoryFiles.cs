@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.IO;
 using rx = System.Text.RegularExpressions;
 
-namespace TEO.General
+namespace TEO
 {
     /// <summary>
     /// This factory creates and validates filenames.

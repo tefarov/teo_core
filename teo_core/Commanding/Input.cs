@@ -364,44 +364,6 @@ namespace TEO.Commanding
         /// </summary>
         public readonly IEnumerable<Arg> ArgumentsUnnamed;
 
-        class reader : IEnumerable<Input>, IGetter<string[]>
-        {
-            const char CHR_COMMENT = '#';
-
-            public readonly string Filepath;
-            string[] ALIN;
-
-            public reader(string filepath)
-            {
-                this.Filepath = filepath.NotNull("Filepath undefined");
-                this.Reset();
-            }
-
-            public IEnumerator<Input> GetEnumerator() { return new enumerator(this); }
-            IEnumerator IEnumerable.GetEnumerator() { return new enumerator(this); }
-            public string[] Get() { return ALIN; }
-
-            public void Reset()
-            {
-                var fil = FactoryFiles_old.ToFilepath(this.Filepath);
-
-                List<string> slin = new List<string>();
-
-                using (var reader = new System.IO.StreamReader(fil)) {
-                    string line;
-                    while ((line = reader.ReadLine()) != null) {
-                        // get rid of comments
-                        if (line.Contains(CHR_COMMENT))
-                            line = line.Substring(0, line.IndexOf(CHR_COMMENT));
-
-                        line = line.Trim();
-                        if (!string.IsNullOrEmpty(line))
-                            slin.Add(line);
-                    }
-                }
-                this.ALIN = slin.ToArray(slin.Count);
-            }
-        }
         class enumerator : IEnumerator<Input>
         {
             IGetter<string[]> SRC;
@@ -449,11 +411,6 @@ namespace TEO.Commanding
 
         static StringBuilder __SBD = new StringBuilder();
         static HashSet<Arg> __SARG = new HashSet<Arg>();
-        
-        public static IEnumerable<Input> Read(string filepath)
-        {
-            return new reader(filepath);
-        }
     }
     public struct Arg
     {

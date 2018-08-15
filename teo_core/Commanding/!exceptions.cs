@@ -18,5 +18,6 @@ namespace TEO.Commanding
     public class ExceptionParsing : Exception
     {
         public ExceptionParsing(Exception ex, Input line, int linenumber) : base("Parsing exception on line " + linenumber.ToString() + ": " + line.ToString()) { }
+        public ExceptionParsing(string description, int linenumber) : base("Parsing exception on line " + linenumber.ToString() + ": " + description) { }
     }
 }

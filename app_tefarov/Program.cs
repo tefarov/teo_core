@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using TEO.General;
+using TEO;
 using TEO.Commanding;
 using mg = TEO.General.Messaging;
 
@@ -24,7 +24,8 @@ namespace APP
 
             dsp.Write("Program initialized", mg.TMessage.CommandResult);
 
-            var prs = new APP.Commanding.Parser(env);
+            //var prs = new APP.Commanding.Parser(env);
+            var prs = new Parser_2();
             var prc = new Processor(env) { Display = dsp };
             var ask = new GetterAskConsole("app") { Display = dsp };
 

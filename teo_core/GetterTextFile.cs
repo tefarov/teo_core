@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using System.IO;
 
-namespace TEO.General
+namespace TEO
 {
     public class GetterTextFile : IGetter<string>
     {
