@@ -25,7 +25,7 @@ namespace APP
             dsp.Write("Program initialized", mg.TMessage.CommandResult);
 
             //var prs = new APP.Commanding.Parser(env);
-            var prs = new Parser_2();
+            var prs = new APP.Commanding.Parser(env);
             var prc = new Processor(env) { Display = dsp };
             var ask = new GetterAskConsole("app") { Display = dsp };
 

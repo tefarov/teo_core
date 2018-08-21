@@ -36,8 +36,8 @@ namespace TEO.Commanding
             DFBAB["break"] = new FactorySingleton<Input, IBatchable>(new BatchBreaker());
 
             // Keywords
-            DFBAB["use"] = new Language.Use(this, environment);
-            DFBAB["run"] = new Language.Run(this, environment);
+            //DFBAB["use"] = new Language.Use(this, environment);
+            //DFBAB["run"] = new Language.Run(this, environment);
 
             // Commands
             DFBAB["exe"] = new lg(environment, lg.Create_Exe);

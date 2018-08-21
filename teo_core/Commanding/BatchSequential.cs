@@ -75,6 +75,8 @@ namespace TEO.Commanding
             public bool MoveNext()
             {
                 if (SSN != ITM.SSN) throw new InvalidOperationException("Sequence broken");
+                if (ITM.AITM == null) return false;
+
                 var val = ++CUR < ITM.AITM.Length;
                 return val;
             }

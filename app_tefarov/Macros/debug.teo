@@ -1,5 +1,1 @@
-﻿# TEO - in loving honor of God
-
-$cfg "Config\\http_finanz.cfg" string
-
-say $cfg
+﻿msg 'ti' "pi" # comment

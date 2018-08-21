@@ -59,7 +59,6 @@
     <Compile Include="Commanding\Environment\IValuable.cs" />
     <Compile Include="Commanding\Environment\Variable.cs" />
     <Compile Include="Commanding\Language\Argument.cs" />
-    <Compile Include="Commanding\Language\Input.cs" />
     <Compile Include="Commanding\Language\Instruction.cs" />
     <Compile Include="Commanding\Language\Language.cs" />
     <Compile Include="Commanding\IO\CmdReadText.cs" />

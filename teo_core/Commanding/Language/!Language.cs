@@ -32,9 +32,6 @@ namespace TEO.Commanding.Language
             , TxTrue = "true", TxTrue2 = "да"
             , TxFalse = "false", TxFalse2 = "нет"
 
-            // Signs
-            , SnAssign = ":="
-
             // Predefined texts
             , Tx_AskText = "Введите текст"
             , Tx_AskNumber = "Введите число"
@@ -47,6 +44,7 @@ namespace TEO.Commanding.Language
             , ChComment = '#'
             , ChLineend = '\r'
             , ChVariable = '$'
+            ,ChAssign = ':'
 
             , ChQuotSim = '\''
             , ChQuotCpx = '"'
@@ -65,5 +63,13 @@ namespace TEO.Commanding.Language
         /// These symbols are allowed in keywords besides digits and letters
         /// </summary>
         public static char[] SymbolsKeyword = { '_' };
+        /// <summary>
+        /// These symbols are allowed in variable's names besides digits and letters
+        /// </summary>
+        public static char[] SymbolsVariables = { '_' };
+
+        public static string
+            StNewLine = System.Environment.NewLine
+            ;
     }
 }
